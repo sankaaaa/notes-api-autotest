@@ -1,6 +1,6 @@
 const request = require('supertest');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3395;
 const baseUrl = `http://localhost:${port}`;
 
 describe('External Notes API (e2e)', () => {
