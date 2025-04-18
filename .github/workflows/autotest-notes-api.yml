@@ -25,17 +25,17 @@ jobs:
       - name: Build application
         run: npm run build
 
-#      - name: Generate random port
-#        run: echo "PORT=$(( (RANDOM % 1000) + 3000 ))" >> $GITHUB_ENV
+      - name: Generate random port
+        run: echo "PORT=$(( (RANDOM % 1000) + 3000 ))" >> $GITHUB_ENV
 
       - name: Run NestJS app in background
         run: |
           npm run start:prod &
           sleep 10
         env:
-          PORT: 3395
+          PORT: ${{ env.PORT }}
 
       - name: Run e2e tests
         run: npm run test:notes-api
         env:
-          PORT: 3395
+          PORT: ${{ env.PORT }}
