@@ -31,7 +31,7 @@ jobs:
       - name: Run NestJS app in background
         run: |
           npm run start:prod &
-          npx wait-on http://localhost:${{ env.PORT }}
+          sleep 10
         env:
           PORT: ${{ env.PORT }}
 
@@ -39,3 +39,5 @@ jobs:
         run: npm run test:notes-api
         env:
           PORT: ${{ env.PORT }}
+
+
