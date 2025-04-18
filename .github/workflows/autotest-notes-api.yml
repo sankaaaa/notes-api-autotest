@@ -33,9 +33,9 @@ jobs:
           npm run start:prod &
           sleep 10
         env:
-          PORT: ${{ env.PORT }}
+          PORT: 3395
 
       - name: Run e2e tests
         run: npm run test:notes-api
         env:
-          PORT: ${{ env.PORT }}
+          PORT: 3395
