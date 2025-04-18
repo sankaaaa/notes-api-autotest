@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import {isValidObjectId, Model} from 'mongoose';
 import { Note } from './schemas/note.schema';
 import {
     INoteDto,
@@ -10,7 +10,7 @@ import {
 } from './dto/note.dto';
 
 @Injectable()
-export class NotesService {
+export class NotesMethods {
     constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
 
     async findAll(): Promise<INoteListDto> {
@@ -26,11 +26,15 @@ export class NotesService {
         return this.mapToDto(savedNote);
     }
 
-    async findOne(id: string): Promise<INoteDto> {
-        const note = await this.noteModel.findById(id).exec();
-        return this.mapToDto(note);
-    }
+    async findOne(id: string): Promise<INoteDto | null> {
+        if (!isValidObjectId(id)) return null;
 
+        const note = await this.noteModel.findById(id).lean();
+        if (!note) return null;
+
+        const { _id, ...rest } = note;
+        return { id: _id.toString(), ...rest };
+    }
     async update(id: string, updateNoteDto: IUpdateNoteDto): Promise<INoteDto> {
         const updatedNote = await this.noteModel
             .findByIdAndUpdate(id, updateNoteDto, { new: true })
