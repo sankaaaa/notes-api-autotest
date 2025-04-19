@@ -26,7 +26,7 @@ jobs:
         run: npm run build
 
       - name: Set fixed port
-        run: echo "PORT=3000" >> $GITHUB_ENV
+        run: echo "PORT=3395" >> $GITHUB_ENV
 
       - name: Start Notes API
         run: |
