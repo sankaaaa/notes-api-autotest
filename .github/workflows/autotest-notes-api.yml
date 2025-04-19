@@ -25,12 +25,10 @@ jobs:
       - name: Build application
         run: npm run build
 
-#      - name: Generate random port
-#        run: echo "PORT=$(( (RANDOM % 1000) + 3000 ))" >> $GITHUB_ENV
       - name: Set fixed port
-        run: echo "PORT=3395" >> $GITHUB_ENV
+        run: echo "PORT=3000" >> $GITHUB_ENV
 
-      - name: Run NestJS app in background
+      - name: Start Notes API
         run: |
           npm run start:prod &
           sleep 10
