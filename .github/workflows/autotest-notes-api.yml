@@ -37,7 +37,7 @@ jobs:
           PORT: ${{ env.PORT }}
 
       - name: Wait for server to be ready
-        run: wait-on http://localhost:3395
+        run: wait-on http://localhost:3395/notes
 
       - name: Run e2e tests
         run: npm run test:notes-api
