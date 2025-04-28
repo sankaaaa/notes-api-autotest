@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Install wait-on
-        run: npm install -g wait-on  
+        run: npm install -g wait-on
 
       - name: Build application
         run: npm run build
@@ -33,13 +33,18 @@ jobs:
 
       - name: Start Notes API
         run: |
-          npm run start:prod &  
-          sleep 10  
+          npm run start:prod > server.log 2>&1 &
+          sleep 10
+          tail -n 10 server.log
         env:
           PORT: ${{ env.PORT }}
 
       - name: Wait for server to be ready
-        run: wait-on tcp:3395  
+        run: |
+          while ! curl -s http://localhost:3395/notes > /dev/null; do
+            echo "Waiting for server to be ready..."
+            sleep 5
+          done
 
       - name: Run e2e tests
         run: npm run test:notes-api
