@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install wait-on tool
-        run: npm install -g wait-on
-
       - name: Build application
         run: npm run build
 
@@ -32,15 +29,16 @@ jobs:
         run: echo "PORT=3395" >> $GITHUB_ENV
 
       - name: Start Notes API
-        run: npm run start:prod &
+        run: |
+          npm run start:prod &  
+          sleep 10  
         env:
           PORT: ${{ env.PORT }}
 
       - name: Wait for server to be ready
-        run: wait-on http://localhost:3395/notes
+        run: wait-on tcp:3395  
 
       - name: Run e2e tests
         run: npm run test:notes-api
         env:
           PORT: ${{ env.PORT }}
-      
